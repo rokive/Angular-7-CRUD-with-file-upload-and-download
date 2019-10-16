@@ -1,0 +1,150 @@
+<div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Update</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+      <main role="main">
+
+          <div class="container">
+            <div class="row justify-content-md-center pt-4 pb-3 mb-3">
+              <div class="col-12 col-sm-12 col-md-12 card pt-3">
+                <form class="row " #tradeDetailsform="ngForm" novalidate (ngSubmit)="Update(tradeDetailsform)">
+                  <div class="col-12  col-sm-6 col-md-4">
+                    <div class="form-group">
+                      <label for="trade">Trade</label>
+                      <ng-select class="form-control" id="tradeId" [(ngModel)]="trade" name="tradeId" #tradeId="ngModel" (change)="onChangeTrade($event)" required>
+                          <ng-option *ngFor="let trade of tradeList" [value]="trade.id">{{trade.tradeName}}</ng-option>
+                      </ng-select>
+                      <div *ngIf="tradeId.invalid && (tradeId.dirty || tradeId.touched)" class="text-danger">
+                        <small *ngIf="tradeId.errors.required">
+                          Trade is required.
+                        </small>
+                      </div>
+                    </div>
+        
+                  </div>
+                  <div class=" col-12 col-sm-6 col-md-4">
+                    <div class="form-group">
+                      <label for="level">Level</label>
+                      <ng-select class="form-control" id="levelId" [(ngModel)]="level" name="levelId" #levelId="ngModel" required>
+                          <ng-option *ngFor="let level of levelList" [value]="level.id">{{level.levelName}}</ng-option>
+                      </ng-select>
+                      <div *ngIf="levelId.invalid && (levelId.dirty || levelId.touched)" class="text-danger">
+                        <small *ngIf="levelId.errors.required">
+                          Level is required.
+                        </small>
+                      </div>
+                    </div>
+        
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4">
+                    <div class="form-group">
+                      <div class="row">
+                        <div class="col-12 col-sm-12 col-md-12">
+                          <span>Language</span>
+                          <div class="form-check" *ngFor="let language of languageList">
+                              <input class="form-check-input" [(ngModel)]="language.isCheck" (change)="onChangelanguage(language.shortName, $event.target.checked)" name="{{ language.shortName }}" type="checkbox" id="{{language.shortName}}">
+                              <label class="form-check-label" for="{{language.shortName}}">
+                                  {{language.languageName}}
+                              </label>
+                          </div>
+                        </div>
+                      </div>
+        
+        
+                    </div>
+        
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-12">
+                    <div class="form-group">
+                      <label for="syllabusName">Syllabus Name</label>
+                      <input type="text" class="form-control" [(ngModel)]="syllabusNameForDb" id="syllabusName" name="syllabusName" tmFocus ngModel
+                        #syllabusName="ngModel" required>
+                      <div *ngIf="syllabusName.invalid && (syllabusName.dirty || syllabusName.touched)" class="text-danger">
+                        <small *ngIf="syllabusName.errors.required">
+                          Syllabus name is required.
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4">
+                    <div class="form-group">
+                      <label for="uploadSyllabus">Upload Syllabus</label>
+                      <input type="file" accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf" class="form-control" id="fileSyllabus" name="fileSyllabus" tmFocus ngModel
+                        #fileSyllabus="ngModel" required (change)="handlefileSyllabus($event.target.files)">
+                      <div *ngIf="fileSyllabus.invalid && (fileSyllabus.dirty || fileSyllabus.touched)"
+                        class="text-danger">
+                        <small *ngIf="fileSyllabus.errors.required">
+                          Syllabus file is required.
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4">
+                    <div class="form-group">
+                      <label for="fileSyllabusPlan">Upload Plan</label>
+                      <input type="file" accept=".xlsx,.xls,image/*,.doc, .docx,.ppt, .pptx,.txt,.pdf" class="form-control" id="fileSyllabusPlan" name="fileSyllabusPlan" tmFocus ngModel
+                        #fileSyllabusPlan="ngModel" required (change)="handlefileSyllabusPlan($event.target.files)">
+                      <div *ngIf="fileSyllabusPlan.invalid && (fileSyllabusPlan.dirty || fileSyllabusPlan.touched)" class="text-danger">
+                        <small *ngIf="fileSyllabusPlan.errors.required">
+                          Plan file is required.
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <label for="developmentOfficer">Development officer</label>
+                      <input type="text" class="form-control" id="developmentOfficer" [(ngModel)]="developmentOfficerName" name="developmentOfficer" tmFocus ngModel
+                        #developmentOfficer="ngModel" required>
+                      <div *ngIf="developmentOfficer.invalid && (developmentOfficer.dirty || developmentOfficer.touched)"
+                        class="text-danger">
+                        <small *ngIf="developmentOfficer.errors.required">
+                          Development Officer name is required.
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-6">
+                    <div class="form-group">
+                      <label for="manager">Manager</label>
+                      <input type="text" class="form-control" id="manager"  [(ngModel)]="managerName" name="manager" tmFocus ngModel #manager="ngModel"
+                        required>
+                      <div *ngIf="manager.invalid && (manager.dirty || manager.touched)" class="text-danger">
+                        <small *ngIf="manager.errors.required">
+                          Manager name is required.
+                        </small>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-6 col-md-4">
+                    <div>
+                      <input class="form-control" placeholder="yyyy-mm-dd" placement="top-left" [minDate]="minDate"
+                        [startDate]="startDate" name="date" id="date" [(ngModel)]="activeDate" ngbDatepicker
+                        #d="ngbDatepicker" (click)="d.toggle()">
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-12 mt-2 mb-2">
+                    <div class="row ">
+                      <div class="col-2 col-sm-3 col-md-1">
+                        <button class="btn btn-primary btn-xs" [disabled]="tradeDetailsform.invalid || isRequesting"
+                          type="submit">Update</button>
+                      </div>
+                    </div>
+                    <div>
+                    </div>
+                  </div>
+                  <div class="col-12 col-sm-12 col-md-12 mt-2 mb-2">
+                      <p *ngFor="let alert of alerts">
+                        <ngb-alert [type]="alert.type" (close)="close(alert)">{{ alert.message }}</ngb-alert>
+                      </p>
+                    </div>
+                </form>
+              </div>
+        
+            </div>
+          </div>
+        </main>
+  </div>
